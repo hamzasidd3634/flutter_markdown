@@ -4,8 +4,8 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/src/readMore.dart';
 import 'package:markdown/markdown.dart' as md;
-import 'package:readmore/readmore.dart';
 
 import '_functions_io.dart' if (dart.library.html) '_functions_web.dart';
 import 'style_sheet.dart';
@@ -324,11 +324,11 @@ class MarkdownBuilder implements md.NodeVisitor {
       if (const <String>['ul', 'ol', 'p', 'br'].contains(_lastVisitedTag)) {
         text = text.replaceAll(leadingSpacesPattern, '');
       }
-
-      if (softLineBreak) {
-        return text;
-      }
-      return text.replaceAll(softLineBreakPattern, ' ');
+      return text;
+      // if (softLineBreak) {
+      //   return text;
+      // }
+      // return text.replaceAll(softLineBreakPattern, ' ');
     }
 
     Widget? child;
@@ -348,11 +348,13 @@ class MarkdownBuilder implements md.NodeVisitor {
       TapGestureRecognizer? recognizer = _linkHandlers.isNotEmpty
           ? _linkHandlers.last as TapGestureRecognizer
           : null;
+      // final numLines = '\n'.allMatches(text.text).length + 1;
+      text = md.Text(text.text.split("%%% ").join("\n"));
       child = GestureDetector(
         onTap: recognizer == null ? () {} : recognizer.onTap,
         child: ReadMoreText(
           _isInBlockquote ? text.text : trimText(text.text),
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           callback: onReadMore,
           moreStyle: moreStyle ?? TextStyle(color: Color(0xffFFC71C)),
           lessStyle: lessStyle ?? TextStyle(color: Color(0xffFFC71C)),

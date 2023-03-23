@@ -323,7 +323,8 @@ class _MarkdownWidgetState extends State<MarkdownWidget>
 
     // Parse the source Markdown data into nodes of an Abstract Syntax Tree.
     final List<String> lines = const LineSplitter().convert(widget.data);
-    final List<md.Node> astNodes = document.parseLines(lines);
+    String d = widget.data.split("\n").join("%%% ");
+    final List<md.Node> astNodes = document.parse(d);
 
     // Configure a Markdown widget builder to traverse the AST nodes and
     // create a widget tree based on the elements.
